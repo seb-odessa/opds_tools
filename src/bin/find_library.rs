@@ -13,7 +13,7 @@ fn main() {
     match find_library(root) {
         Ok(subdirs) => {
             for path in subdirs {
-                println!("Файл найден: {}", path.display())
+                println!("Файл найден: {}", path)
             }
         },
 

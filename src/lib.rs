@@ -5,7 +5,7 @@ use std::fs;
 use std::io;
 use std::path::PathBuf;
 
-pub fn find_library(root: &str) -> Result<Vec<PathBuf>, io::Error> {
+pub fn find_library(root: &str) -> Result<Vec<String>, io::Error> {
     let library = OsStr::new("lib.rus.ec");
     let mut stack = LinkedList::from([PathBuf::from(root)]);
     let mut subdirs = Vec::new();
@@ -16,7 +16,7 @@ pub fn find_library(root: &str) -> Result<Vec<PathBuf>, io::Error> {
                     let path = entry.path();
                     if path.is_dir() {
                         if path.file_name() == Some(&library) {
-                            subdirs.push(path);
+                            subdirs.push(path.display().to_string());
                         } else {
                             stack.push_front(path);
                         }
