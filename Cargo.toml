@@ -1,10 +1,10 @@
 [package]
 name = "opds_tools"
-version = "0.5.0"
+version = "0.5.1"
 edition = "2021"
 
 [lib]
-crate-type = ["cdylib"]
+name = "lib"
 path = "src/lib.rs"
 
 [dependencies]
