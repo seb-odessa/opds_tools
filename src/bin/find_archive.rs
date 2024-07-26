@@ -31,7 +31,7 @@ fn main() {
             } else {
                 println!("Архивы, содержащие диапазон, включающий id {book}:");
                 for archive in archives {
-                    println!("{}", archive.display());
+                    println!("{}", archive);
                 }
             }
         }

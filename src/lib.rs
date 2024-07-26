@@ -28,7 +28,7 @@ pub fn find_library(root: &str) -> Result<Vec<PathBuf>, io::Error> {
     Ok(subdirs)
 }
 
-pub fn find_archives(root: &str, id: u32) -> Result<Vec<PathBuf>, io::Error> {
+pub fn find_archives(root: &str, id: u32) -> Result<Vec<String>, io::Error> {
     let mut archives = Vec::new();
     let re = Regex::new(r"fb2-(\d+)-(\d+)(?:_lost)?\.zip").unwrap();
 
@@ -42,7 +42,7 @@ pub fn find_archives(root: &str, id: u32) -> Result<Vec<PathBuf>, io::Error> {
                     let end: u32 = caps[2].parse().unwrap_or_default();
 
                     if start <= id && id <= end {
-                        archives.push(path);
+                        archives.push(path.display().to_string());
                     }
                 }
             }
