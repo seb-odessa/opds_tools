@@ -19,8 +19,6 @@ pub fn find_libraries(root: &str) -> Result<Vec<String>, io::Error> {
                             if path.is_dir() {
                                 if path.file_name() == Some(&library) {
                                     subdirs.push(path.display().to_string());
-                                } else {
-                                    stack.push_front(path);
                                 }
                             }
                         },
@@ -31,7 +29,7 @@ pub fn find_libraries(root: &str) -> Result<Vec<String>, io::Error> {
                 }
             }
             Err(e) => {
-                subdirs.push(format!("Error: {}", e));
+                subdirs.push(format!("Can't read {}: {}", root, e));
             }
         }
     }
@@ -46,13 +44,11 @@ pub fn find_archives(root: &str, id: u32) -> Result<Vec<String>, io::Error> {
         Ok(entries) => {
             for entry in entries {
                 let path = entry?.path();
-
                 if path.is_file() {
                     if let Some(file_name) = path.file_name().and_then(|name| name.to_str()) {
                         if let Some(caps) = re.captures(file_name) {
                             let start: u32 = caps[1].parse().unwrap_or_default();
                             let end: u32 = caps[2].parse().unwrap_or_default();
-
                             if start <= id && id <= end {
                                 archives.push(path.display().to_string());
                             }
@@ -62,7 +58,7 @@ pub fn find_archives(root: &str, id: u32) -> Result<Vec<String>, io::Error> {
             }
         },
         Err(e) => {
-            archives.push(format!("Can'r read {}: {}", root, e));
+            archives.push(format!("Can't read {}: {}", root, e));
         }
     }
 
