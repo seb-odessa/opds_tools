@@ -1,7 +1,7 @@
 
 use std::path::Path;
 
-use lib::find_library;
+use lib::find_libraries;
 
 fn main() {
     let root = "/storage";
@@ -10,7 +10,7 @@ fn main() {
         return;
     }
 
-    match find_library(root) {
+    match find_libraries(root) {
         Ok(subdirs) => {
             for path in subdirs {
                 println!("Файл найден: {}", path)
