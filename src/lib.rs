@@ -42,22 +42,30 @@ pub fn find_archives(root: &str, id: u32) -> Result<Vec<String>, io::Error> {
     let mut archives = Vec::new();
     let re = Regex::new(r"fb2-(\d+)-(\d+)(?:_lost)?\.zip").unwrap();
 
-    for entry in fs::read_dir(root)? {
-        let path = entry?.path();
+    match fs::read_dir(&root) {
+        Ok(entries) => {
+            for entry in entries {
+                let path = entry?.path();
 
-        if path.is_file() {
-            if let Some(file_name) = path.file_name().and_then(|name| name.to_str()) {
-                if let Some(caps) = re.captures(file_name) {
-                    let start: u32 = caps[1].parse().unwrap_or_default();
-                    let end: u32 = caps[2].parse().unwrap_or_default();
+                if path.is_file() {
+                    if let Some(file_name) = path.file_name().and_then(|name| name.to_str()) {
+                        if let Some(caps) = re.captures(file_name) {
+                            let start: u32 = caps[1].parse().unwrap_or_default();
+                            let end: u32 = caps[2].parse().unwrap_or_default();
 
-                    if start <= id && id <= end {
-                        archives.push(path.display().to_string());
+                            if start <= id && id <= end {
+                                archives.push(path.display().to_string());
+                            }
+                        }
                     }
                 }
             }
+        },
+        Err(e) => {
+            archives.push(format!("Can'r read {}: {}", root, e));
         }
     }
+
 
     Ok(archives)
 }
