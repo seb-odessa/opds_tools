@@ -1,7 +1,7 @@
 use std::env;
 use std::path::Path;
 
-use lib::find_archives;
+use opds_tools::find_archives;
 
 fn main() {
     let args: Vec<String> = env::args().collect();

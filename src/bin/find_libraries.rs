@@ -1,7 +1,7 @@
 
 use std::path::Path;
 
-use lib::find_libraries;
+use opds_tools::find_libraries;
 
 fn main() {
     let root = "/storage";

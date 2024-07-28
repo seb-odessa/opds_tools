@@ -1,11 +1,13 @@
 [package]
 name = "opds_tools"
-version = "0.5.8"
+version = "0.5.12"
 edition = "2021"
 
 [lib]
-name = "lib"
+name = "opds_tools"
 path = "src/lib.rs"
 
 [dependencies]
 regex = "1.10"
+log = "0.4"
+env_logger = "0.11"
